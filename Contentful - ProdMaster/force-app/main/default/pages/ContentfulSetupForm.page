@@ -1,0 +1,676 @@
+<apex:page controller="ContentfulSetupForm" standardStylesheets="false" showHeader="false" sidebar="false" cache="false">
+    <html>
+        <head>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+            <style type="text/css" media="print">
+                @page {
+                    @top-center {
+                        content: element(header);
+                    }
+                    @bottom-left {
+                        content: element(footer);
+                    }
+                }
+
+                @media print  
+                {
+                    div{
+                        page-break-inside: avoid;
+                    }
+                }
+
+                body {
+                    margin-bottom: 30px;
+                }
+                div.header {
+                    padding: 10px;
+                    position: running(header);
+                }
+                div.footer {
+                    display: block;
+                    padding: 5px;
+                    position: running(footer);
+                }
+                .pagenumber:before {
+                    content: counter(page);
+                }
+                .pagecount:before {
+                    content: counter(pages);
+                 }
+
+                .flextbl>div {
+                  flex: 0 45% !important;
+                  display: inline-block !important;
+                  position: relative;
+                }
+
+                .flextbl {
+                  display: inline-table !important;
+                }
+
+               
+                .form-control {
+                    min-width: 300px !important;
+                }
+
+                .col-md-5{
+                    margin-bottom: 30px !important;
+                }
+
+                .row {
+                    margin-right: -15px;
+                    margin-left: -15px;
+                    margin-bottom: 30px;
+                }
+
+             </style>
+             <script type="text/javascript">
+                function myFunction() {
+                    var x = document.getElementById("newAcc");
+                    if (x.style.display === "none") {
+                        x.style.display = "block";
+                    } else {
+                        x.style.display = "none";
+                    }
+                }
+             </script>
+        </head>
+        <body>
+            <div class="container" style="margin-top: 50px; margin-bottom: 50px;">
+
+            <div class="header">
+                    <div style="width:60%; float: left;">
+                        <img src="{!URLFOR($Resource.AssetsForQuote, 'Logo.png')}" width="170"/>
+                    </div>
+            </div>
+            <div style="clear: both;"/>
+
+            <apex:form style="margin-top: 30px">
+
+            <apex:pageBlock id="setupfrm">
+
+            <apex:messages id="msg"/><br/><br/>
+
+            <apex:outputPanel id="inputFrm" rendered="{!AND(showInputForm,formLocked == false)}">
+
+            <h3>Contentful setup form</h3>
+            <p>To finalize your setup, we require some information about your account, about invoicing, and some contact details. Please find detailed payment instructions on the last page.</p> <br/>
+
+            <h4>Account Details</h4>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Would you like to upgrade a new or a pre-existing account? <span style="color:red">*</span></label>
+                        </div>
+                        <div class="col-md-5">
+                            <!--apex:selectList value="{!selectedAccountType}" multiselect="false" size="1">
+                                <apex:selectOptions value="{!items}"/>
+                                <apex:actionSupport event="onchange" action="{!checkIfNew}" reRender="inputFrm,isnew,isExisting"/>
+                            </apex:selectList-->
+                            <apex:actionRegion >        
+                              <apex:inputField value="{!setupForm.Upgrade_a_new_or_a_pre_existing_account__c}" required="true" styleClass="form-control">
+                                <apex:actionSupport event="onchange" reRender="inputFrm"/>
+                              </apex:inputField>
+                            </apex:actionRegion>
+                            <!--apex:inputField value="{!setupForm.Upgrade_a_new_or_a_pre_existing_account__c}" styleClass="form-control" label="" required="true" /-->
+                        </div>
+                    </div>
+
+                    <apex:outputPanel rendered="{!setupForm.Upgrade_a_new_or_a_pre_existing_account__c='New'}">
+
+                        <div class="row" style="margin-bottom: 30px;" id="newAcc">
+                            <div class="col-md-5">
+                                <label for="exampleInputEmail1">If new, what will your account’s name be? <span style="color:red">*</span></label>
+                            </div>
+                            <div class="col-md-5">
+                                <apex:inputField value="{!setupForm.Account_name__c}" styleClass="form-control" label="" required="true"/>
+                            </div>
+                        </div>
+                    </apex:outputPanel>
+
+                    <apex:outputPanel rendered="{!setupForm.Upgrade_a_new_or_a_pre_existing_account__c='Pre-existing'}">
+                        <div class="row" style="margin-bottom: 30px;" id="existingAcc">
+                            <div class="col-md-5">
+                                <label for="exampleInputEmail1">If pre-existing, what is the account’s organization ID? <span style="color:red">*</span></label> <br/>
+                                <small id="emailHelp" class="form-text text-muted"><i>The organization ID can be found in the Contentful web application under profile settings. Click on your avatar to see this option.</i></small>
+                            </div>
+                            <div class="col-md-5">
+                                <apex:inputField value="{!setupForm.Account_s_organization_ID__c}" styleClass="form-control" label="" required="true"/>
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-bottom: 30px;" id="existingAcc">
+                            <div class="col-md-5">
+                                <label for="exampleInputEmail1">If pre-existing, please specify what spaces you’d like to upgrade to the Enterprise plan on space-based pricing. <span style="color:red">*</span></label> <br/>
+                                <small id="emailHelp" class="form-text text-muted"><i>The space key can be found in the Contentful web application under profile settings. Please clarify what space would match each space plan (e.g. Space Name 1 (id 1010msia) = Large Plan)</i></small>
+                            </div>
+                            <div class="col-md-5">
+                                <apex:inputField value="{!setupForm.Spaces_to_upgrade_to_the_Enterprise_plan__c}" styleClass="form-control" label="" required="true"/>
+                            </div>
+                        </div>
+                    </apex:outputPanel>
+                  
+                    
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Email addresses of the Contentful organization owners <span style="color:red">*</span></label><br/>
+                            <small id="emailHelp" class="form-text text-muted"><i>Contentful Organization owners can modify billing information and administer users.</i></small>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:inputField value="{!setupForm.Organization_owners_email_addresses__c}" styleClass="form-control" label="" required="true" />
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Email domains to associate with your account <span style="color:red">*</span></label><br/>
+                            <small id="emailHelp" class="form-text text-muted"><i>When an email is sent to support from one of these domains, we will respond on the timeline described in your contract</i></small>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:inputField value="{!setupForm.Email_domains__c}" styleClass="form-control" label="" required="true"/>
+                        </div>
+                    </div>
+                
+                <h4>Invoicing Details</h4>
+                <small id="emailHelp" class="form-text text-muted"><i>This information will appear on your invoices</i></small>
+                <br/><br/>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Company name <span style="color:red">*</span></label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:inputField value="{!setupForm.Company_name__c}" styleClass="form-control" label="" required="true"/>
+                        </div>
+                    </div>
+
+                    <!--div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Mailing address</label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:inputField value="{!setupForm.Mailing_address__c}" styleClass="form-control" label="" required="true"/>
+                        </div>
+                    </div-->
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Mailing Country <span style="color:red">*</span></label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:inputField value="{!con.MailingCountryCode}" styleClass="form-control"/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Mailing Street <span style="color:red">*</span></label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:inputField value="{!setupForm.Mailling_Street__c}" styleClass="form-control" label="" required="true"/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Mailing City <span style="color:red">*</span></label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:inputField value="{!setupForm.Mailling_City__c}" styleClass="form-control" label="" required="true"/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Mailing State <span style="color:red">*</span></label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:inputField value="{!con.MailingStateCode}" styleClass="form-control"/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Mailing Postal Code <span style="color:red">*</span></label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:inputField value="{!setupForm.Mailing_Postal_Code__c}" styleClass="form-control" label="" required="true"/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Invoicing contact: name <span style="color:red">*</span></label><br/>
+                            <small id="emailHelp" class="form-text text-muted"><i>For receiving invoices</i></small>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:inputField value="{!setupForm.Invoicing_contact_name__c}" styleClass="form-control" label="" required="true"/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Invoicing contact: email address <span style="color:red">*</span></label><br/>
+                            <small id="emailHelp" class="form-text text-muted"><i>For receiving invoices</i></small>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:inputField value="{!setupForm.Invoicing_contact_email_address__c}" styleClass="form-control" label="" required="true"/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Phone number for billing inquiries <span style="color:red">*</span></label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:inputField value="{!setupForm.Phone_number_for_billing_inquiries__c}" styleClass="form-control" label="" required="true"/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">PO number: <span style="color:red">*</span></label><br/>
+                            <small id="emailHelp" class="form-text text-muted"><i>This will appear on all future invoices</i></small>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:inputField value="{!setupForm.PO_number__c}" styleClass="form-control" label="" required="true"/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">VAT ID: <span style="color:red">*</span></label><br/>
+                            <small id="emailHelp" class="form-text text-muted"><i>Only applicable for EU countries outside of Germany</i></small>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:inputField value="{!setupForm.VAT_ID__c}" styleClass="form-control" label=""/>
+                        </div>
+                    </div>
+
+                    <h3>Contact information</h3>
+                    <small id="emailHelp" class="form-text text-muted"><i>This is used to reach out directly to users in case of technical questions and emergencies, to ensure that your service is delivered uninterrupted.</i></small>
+                    <br/><br/>
+
+                    <h4>Primary contact</h4>
+                    <small id="emailHelp" class="form-text text-muted"><i>For trainings, project onboardings, and other day-to-day queries <span style="color:red">*</span></i></small>
+                    <br/><br/>
+
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Name <span style="color:red">*</span></label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:inputField value="{!setupForm.Primary_contact_name__c}" styleClass="form-control" label="" required="true"/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Email address <span style="color:red">*</span></label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:inputField value="{!setupForm.Primary_contact_email__c}" styleClass="form-control" label="" required="true"/>
+                        </div>
+                    </div>
+
+                    <h4>Billing contact</h4>
+                    <small id="emailHelp" class="form-text text-muted"><i>For billing inquiries</i></small>
+                    <br/><br/>
+            
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Name <span style="color:red">*</span></label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:inputField value="{!setupForm.Billing_contact_name__c}" styleClass="form-control" label="" required="true"/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Email address <span style="color:red">*</span></label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:inputField value="{!setupForm.Billing_contact_email__c}" styleClass="form-control" label="" required="true"/>
+                        </div>
+                    </div>
+
+                    <h4>Technical contact (Optional)</h4>
+                    <small id="emailHelp" class="form-text text-muted"><i>For production issues, technical set up forms and add-on services</i></small>
+                    <br/><br/>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Name</label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:inputField value="{!setupForm.Technical_contact_name__c}" styleClass="form-control" label=""/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Email address</label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:inputField value="{!setupForm.Technical_contact_email__c}" styleClass="form-control" label=""/>
+                        </div>
+                    </div>
+
+                    
+                    <h4>Editorial contact (Optional)</h4>
+                    <small id="emailHelp" class="form-text text-muted"><i>For queries and activities related with editorial and content team(s)</i></small>
+                    <br/><br/>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Name</label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:inputField value="{!setupForm.Editorial_contact_name__c}" styleClass="form-control" label=""/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Email address</label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:inputField value="{!setupForm.Editorial_contact_email__c}" styleClass="form-control" label=""/>
+                        </div>
+                    </div>
+
+                <div align="center" draggable="false" >
+                
+                   <apex:commandButton action="{!save}" value="Save" styleClass="btn btn-info btn-md" reRender="setupfrm,inputFrm,msg, inputFrmReadOnly"/>
+                
+                </div>
+
+            </apex:outputPanel>
+
+
+            <apex:outputPanel id="inputFrmReadOnly" rendered="{!formLocked == true}">
+
+            <h3>Contentful setup form</h3>
+            <p>To finalize your setup, we require some information about your account, about invoicing, and some contact details. Please find detailed payment instructions on the last page.</p> <br/>
+
+            <h4>Account Details</h4>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Would you like to upgrade a new or a pre-existing account?</label>
+                        </div>
+                        <div class="col-md-5">
+                              <apex:outputField value="{!setupForm.Upgrade_a_new_or_a_pre_existing_account__c}"/>
+                        </div>
+                    </div>
+
+                    <apex:outputPanel rendered="{!setupForm.Upgrade_a_new_or_a_pre_existing_account__c='New'}">
+
+                        <div class="row" style="margin-bottom: 30px;" id="newAcc">
+                            <div class="col-md-5">
+                                <label for="exampleInputEmail1">If new, what will your account’s name be?</label>
+                            </div>
+                            <div class="col-md-5">
+                                <apex:outputField value="{!setupForm.Account_name__c}" styleClass="form-control" label=""/>
+                            </div>
+                        </div>
+                    </apex:outputPanel>
+
+                    <apex:outputPanel rendered="{!setupForm.Upgrade_a_new_or_a_pre_existing_account__c='Pre-existing'}">
+                        <div class="row" style="margin-bottom: 30px;" id="existingAcc">
+                            <div class="col-md-5">
+                                <label for="exampleInputEmail1">If pre-existing, what is the account’s organization ID? </label> <br/>
+                                <small id="emailHelp" class="form-text text-muted"><i>The organization ID can be found in the Contentful web application under profile settings. Click on your avatar to see this option.</i></small>
+                            </div>
+                            <div class="col-md-5">
+                                <apex:outputField value="{!setupForm.Account_s_organization_ID__c}" styleClass="form-control" label=""/>
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-bottom: 30px;" id="existingAcc">
+                            <div class="col-md-5">
+                                <label for="exampleInputEmail1">If pre-existing, please specify what spaces you’d like to upgrade to the Enterprise plan on space-based pricing. </label> <br/>
+                                <small id="emailHelp" class="form-text text-muted"><i>The space key can be found in the Contentful web application under profile settings. Please clarify what space would match each space plan (e.g. Space Name 1 (id 1010msia) = Large Plan)</i></small>
+                            </div>
+                            <div class="col-md-5">
+                                <apex:outputField value="{!setupForm.Spaces_to_upgrade_to_the_Enterprise_plan__c}" styleClass="form-control" label=""/>
+                            </div>
+                        </div>
+                    </apex:outputPanel>
+                  
+                    
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Email addresses of the Contentful organization owners </label><br/>
+                            <small id="emailHelp" class="form-text text-muted"><i>Contentful Organization owners can modify billing information and administer users.</i></small>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:outputField value="{!setupForm.Organization_owners_email_addresses__c}" styleClass="form-control" label=""/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Email domains to associate with your account</label><br/>
+                            <small id="emailHelp" class="form-text text-muted"><i>When an email is sent to support from one of these domains, we will respond on the timeline described in your contract</i></small>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:outputField value="{!setupForm.Email_domains__c}" styleClass="form-control" label=""/>
+                        </div>
+                    </div>
+                
+                <h4>Invoicing Details</h4>
+                <small id="emailHelp" class="form-text text-muted"><i>This information will appear on your invoices</i></small>
+                <br/><br/>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Company name</label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:outputField value="{!setupForm.Company_name__c}" styleClass="form-control" label=""/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Mailing Country</label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:outputField value="{!setupForm.Mailling_Country__c}" styleClass="form-control"/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Mailing Street</label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:outputField value="{!setupForm.Mailling_Street__c}" styleClass="form-control" label=""/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Mailing City</label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:outputField value="{!setupForm.Mailling_City__c}" styleClass="form-control" label=""/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Mailing State</label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:outputField value="{!setupForm.Mailling_State__c}" styleClass="form-control"/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Mailing Postal Code</label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:outputField value="{!setupForm.Mailing_Postal_Code__c}" styleClass="form-control" label=""/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Invoicing contact: name</label><br/>
+                            <small id="emailHelp" class="form-text text-muted"><i>For receiving invoices</i></small>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:outputField value="{!setupForm.Invoicing_contact_name__c}" styleClass="form-control" label=""/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Invoicing contact: email address </label><br/>
+                            <small id="emailHelp" class="form-text text-muted"><i>For receiving invoices</i></small>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:outputField value="{!setupForm.Invoicing_contact_email_address__c}" styleClass="form-control" label=""/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Phone number for billing inquiries</label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:outputField value="{!setupForm.Phone_number_for_billing_inquiries__c}" styleClass="form-control" label=""/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">PO number:</label><br/>
+                            <small id="emailHelp" class="form-text text-muted"><i>This will appear on all future invoices</i></small>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:outputField value="{!setupForm.PO_number__c}" styleClass="form-control" label=""/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">VAT ID:</label><br/>
+                            <small id="emailHelp" class="form-text text-muted"><i>Only applicable for EU countries outside of Germany</i></small>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:outputField value="{!setupForm.VAT_ID__c}" styleClass="form-control" label=""/>
+                        </div>
+                    </div>
+
+                    <h3>Contact information</h3>
+                    <small id="emailHelp" class="form-text text-muted"><i>This is used to reach out directly to users in case of technical questions and emergencies, to ensure that your service is delivered uninterrupted.</i></small>
+                    <br/><br/>
+
+                    <h4>Primary contact</h4>
+                    <small id="emailHelp" class="form-text text-muted"><i>For trainings, project onboardings, and other day-to-day queries</i></small>
+                    <br/><br/>
+
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Name</label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:outputField value="{!setupForm.Primary_contact_name__c}" styleClass="form-control" label=""/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Email address</label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:outputField value="{!setupForm.Primary_contact_email__c}" styleClass="form-control" label=""/>
+                        </div>
+                    </div>
+
+                    <h4>Billing contact</h4>
+                    <small id="emailHelp" class="form-text text-muted"><i>For billing inquiries</i></small>
+                    <br/><br/>
+            
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Name</label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:outputField value="{!setupForm.Billing_contact_name__c}" styleClass="form-control" label=""/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Email address</label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:outputField value="{!setupForm.Billing_contact_email__c}" styleClass="form-control" label=""/>
+                        </div>
+                    </div>
+
+                    <h4>Technical contact (Optional)</h4>
+                    <small id="emailHelp" class="form-text text-muted"><i>For production issues, technical set up forms and add-on services</i></small>
+                    <br/><br/>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Name</label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:outputField value="{!setupForm.Technical_contact_name__c}" styleClass="form-control" label=""/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Email address</label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:outputField value="{!setupForm.Technical_contact_email__c}" styleClass="form-control" label=""/>
+                        </div>
+                    </div>
+
+                    
+                    <h4>Editorial contact (Optional)</h4>
+                    <small id="emailHelp" class="form-text text-muted"><i>For queries and activities related with editorial and content team(s)</i></small>
+                    <br/><br/>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Name</label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:outputField value="{!setupForm.Editorial_contact_name__c}" styleClass="form-control" label=""/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class="col-md-5">
+                            <label for="exampleInputEmail1">Email address</label>
+                        </div>
+                        <div class="col-md-5">
+                            <apex:outputField value="{!setupForm.Editorial_contact_email__c}" styleClass="form-control" label=""/>
+                        </div>
+                    </div>
+
+            </apex:outputPanel>
+            
+            </apex:pageBlock>
+            </apex:form>
+
+
+        If you have any questions please contact <a href="mailto:accounts-receivable@contentful.com" target="_top">accounts-receivable@contentful.com</a>.
+
+        </div>
+        </body>
+    </html>
+</apex:page>

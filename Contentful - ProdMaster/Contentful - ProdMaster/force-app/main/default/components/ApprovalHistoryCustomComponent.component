@@ -1,0 +1,34 @@
+<apex:component controller="FindApprovalHistory" access="global">
+    <apex:attribute name="opportunityIdValue" type="String" description="This is the Id of the opportunity" assignTo="{!opportunityId}" access="global" />
+    
+    <table border="1">
+        
+        <th style="background-color: orange;">Submitted At</th>
+        <!--th style="background-color: orange;">Assigned To</th-->
+        <th style="background-color: orange;">Actual Approver</th>
+        <th style="background-color: orange;">Step Status</th>
+        <th style="background-color: orange;">Approval Link</th>
+        <th style="background-color: orange;">Comments</th>
+        
+        <apex:repeat value="{!GeneratedApprovalHistory}" var="instances" >
+        <apex:repeat value="{!instances.StepsAndWorkitems}" var="cx" >
+            <tr>
+                 <td>
+                     {!cx.CreatedDate}
+                    <!--apex:outputText value="{0, date, mm:hh MMMM d','  yyyy}">
+                        <apex:param value="{!cx.CreatedDate}" /> 
+                    </apex:outputText-->
+                 </td>
+                 <!--td>{!cx.OriginalActor.Name}</td-->
+                 <td>{!cx.Actor.Name}</td>
+                 <td>{!cx.StepStatus}</td>
+                 <td>
+                     <a href="https://contentful.my.salesforce.com/p/process/ProcessInstanceWorkitemWizardStageManager?id={!cx.Id}" target="_blank"><apex:outputText value="Approve/Reject" rendered="{!cx.StepStatus == 'Pending'}"/></a>
+                </td>
+                 <td>{!cx.Comments}</td>
+            </tr>
+        </apex:repeat>
+    </apex:repeat>
+    </table>
+    
+</apex:component>

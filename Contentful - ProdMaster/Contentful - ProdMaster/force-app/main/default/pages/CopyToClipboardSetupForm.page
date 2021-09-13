@@ -1,0 +1,23 @@
+<apex:page title="Contentful Setup Form Link" standardController="Contentful_Setup_Form__c" extensions="ContentfulSetupFormLink">
+    <html>
+        <body>
+            <apex:outputPanel rendered="{!billingEntitySelected}">
+                <div style="margin-top:30px">
+                    <input type="text" value="{!urlLink}" id="myInput" readonly="true" style="width:30%"/>
+                    <button onclick="myFunction();">Copy Link</button>
+                </div>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!!billingEntitySelected}">
+                <p><b>Billing entity must be selected before sending the setup form link to the client!</b></p>
+            </apex:outputPanel>
+            <script>
+            function myFunction() {
+                var copyText = document.getElementById("myInput");
+                copyText.select();
+                document.execCommand("copy");
+                alert("URL link copied to clipboard: " + copyText.value);
+            }
+            </script>
+        </body>
+    </html>
+</apex:page>

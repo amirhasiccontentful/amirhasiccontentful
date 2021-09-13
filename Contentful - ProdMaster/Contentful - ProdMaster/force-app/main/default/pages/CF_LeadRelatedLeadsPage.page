@@ -1,0 +1,43 @@
+<apex:page standardController="Lead" extensions="CF_LeadRelatedLeadsController" >
+<apex:form >
+	<apex:outputText value="{!Lead.email}" rendered="false"/>
+	<apex:outputText value="{!Lead.CF_Organization__c}" rendered="false"/>
+	<apex:outputText value="{!Lead.CF_User__c}" rendered="false"/>
+	<apex:outputText value="{!Lead.Email_Domain__c}" rendered="false"/>
+	
+	<apex:pageblock id="CustomList" title="Lead">
+	   <apex:pageBlockTable value="{!leads}" var="l" rendered="{!leads.size > 0}">
+	        <apex:column >
+	        	<apex:outputLink target="_parent" value="/{!l.id}">{!l.Name}</apex:outputLink>
+	        </apex:column>
+	        <apex:column headerValue="CF-Organization">
+	        	<apex:outputLink target="_parent" value="/{!l.CF_Organization__c}" rendered="{!l.CF_Organization__c != null}">{!l.CF_Organization__r.Name}</apex:outputLink>
+	        	<apex:outputText value=" (same)" rendered="{!l.CF_Organization__c = Lead.CF_Organization__c}"/>
+	        </apex:column>
+	        <apex:column headerValue="CF-User">
+	        	<apex:outputLink target="_parent" value="/{!l.CF_User__c}" rendered="{!l.CF_User__c != null}">{!l.CF_User__r.Name}</apex:outputLink>
+	        	<apex:outputText value=" (same)" rendered="{!l.CF_User__c = Lead.CF_User__c}"/>
+	        </apex:column>	        	        
+	        <apex:column value="{!l.email}"/>
+	        <apex:column value="{!l.status}"/>
+	        <apex:column headerValue="Idle Reason">
+	        	<apex:outputText value="{!l.Idle_Reason__c}" rendered="{!l.Status = 'Idle'}"/>
+	        </apex:column>
+	        <apex:column value="{!l.createdDate}"/>
+	   </apex:pageBlockTable>
+	   <apex:outputLabel value="No related leads detected based on CF-Organization, CF-User or email address." rendered="{!leads.size = 0}" styleClass="noRowsHeader"></apex:outputLabel>
+	   
+       <apex:panelGrid columns="7">
+           <apex:commandButton status="fetchStatus" reRender="CustomList" value="|<" action="{!first}" disabled="{!!hasPrevious}" title="First Page"/>
+           <apex:commandButton status="fetchStatus" reRender="CustomList" value="<" action="{!previous}" disabled="{!!hasPrevious}" title="Previous Page"/>
+           <apex:commandButton status="fetchStatus" reRender="CustomList" value=">" action="{!next}" disabled="{!!hasNext}" title="Next Page"/>
+           <apex:commandButton status="fetchStatus" reRender="CustomList" value=">|" action="{!last}" disabled="{!!hasNext}" title="Last Page"/>
+           <apex:outputText >{!(pageNumber * size)+1-size}-{!IF((pageNumber * size)>noOfRecords, noOfRecords,(pageNumber * size))} of {!noOfRecords}</apex:outputText>
+           <apex:commandButton status="fetchStatus" reRender="CustomList" value="Refresh" action="{!refresh}" title="Refresh Page"/>
+           <apex:outputPanel style="color:#4AA02C;font-weight:bold">
+               <apex:actionStatus id="fetchStatus" startText="Fetching..." stopText=""/>
+           </apex:outputPanel>
+       </apex:panelGrid>	 	   
+	 </apex:pageblock>
+	</apex:form>
+</apex:page>

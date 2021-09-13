@@ -1,0 +1,20 @@
+<apex:page standardController="Lead" extensions="CF_LeadRelatedAccountsController" >
+<apex:form >
+	<apex:outputText value="{!Lead.email}" rendered="false"/>
+	<apex:outputText value="{!Lead.CF_Organization__c}" rendered="false"/>
+	<apex:outputText value="{!Lead.CF_User__c}" rendered="false"/>
+	<apex:outputText value="{!Lead.Email_Domain__c}" rendered="false"/>
+	<apex:outputText value="{!Lead.Company}" rendered="false"/>
+	
+	<apex:pageblock id="CustomList" title="Account">
+	   <apex:pageBlockTable value="{!accounts}" var="a" rendered="{!accounts.size > 0}">
+	        <apex:column >
+	        	<apex:outputLink target="_parent" value="/{!a.id}">{!a.Name}</apex:outputLink>
+	        </apex:column>
+			<apex:column value="{!a.Owner.Name}" headerValue="Owner"/>
+			<apex:column value="{!a.CF_Customer_Success_Manager__r.Name}" headerValue="Customer Relations"/>
+	   </apex:pageBlockTable>
+	   <apex:outputLabel value="No related accounts detected based on email domain and CF-Organization." rendered="{!accounts.size = 0}" styleClass="noRowsHeader"></apex:outputLabel>
+	 </apex:pageblock>
+	</apex:form>
+</apex:page>

@@ -1,0 +1,9 @@
+<apex:component controller="CF_EmbeddLooker_Controller">
+    <apex:attribute name="embedHeight" description="This is height to embed" type="String" required="false" />
+    <apex:attribute name="embedWidth" description="This is width to embed" type="String" required="false"/>
+    <apex:attribute name="embedPath" description="This is url to embed" type="String" required="true" assignTo="{!embed_path}"/>
+    <apex:attribute name="lookerModels" description="This is url to embed" type="String" required="true" assignTo="{!looker_models}"/>
+    <apex:attribute name="lookerPermissions" description="This is url to embed" type="String" required="true" assignTo="{!looker_permissions}"/>    
+    <apex:attribute name="lookerAccessFilters" description="This is url to embed" type="String" required="true" assignTo="{!looker_access_filters}"/> 
+    <iframe src="{!generateIframeUrl}" frameborder="0" width="100%" height="2400px" id="account_app_usage" scrolling="true"></iframe> 
+</apex:component>

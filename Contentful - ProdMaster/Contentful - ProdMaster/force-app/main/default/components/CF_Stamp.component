@@ -1,0 +1,15 @@
+<apex:component >
+
+    <apex:attribute name="dealDeskAproStatus" description="The Deal Desk Approval Status from the zqu_Quote" type="String" required="false"/>
+
+    <apex:attribute name="stampName" description="Name of the Deal Desk Stamp" type="String" required="false" default="Generic_Contentful_Deal_Desk_Stamp.png"/>
+
+    <apex:outputPanel id="stampPanel" layout="block" rendered="{! dealDeskAproStatus == 'Approved' }">
+
+        <div>
+            <apex:image url="{!URLFOR($Resource.Stamps, stampName)}" width="80"/>
+        </div>
+
+    </apex:outputPanel>
+
+</apex:component>

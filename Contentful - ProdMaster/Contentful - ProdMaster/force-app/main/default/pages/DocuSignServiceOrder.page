@@ -1,0 +1,2 @@
+<apex:page standardController="zqu__Quote__c" extensions="DocuSignServiceOrderExt" action="{!saveServiceOrderAndOpenWithDocuSign}" >
+</apex:page>

@@ -1,0 +1,680 @@
+<apex:page standardController="zqu__Quote__c" standardStylesheets="false" showHeader="false" sidebar="false" extensions="ZuoraQuoteExt" contentType="application/msword#ContentfulQuote.doc" cache="true" action="{!getQuote}" >
+    <html>
+        <head>
+            <style type="text/css" media="print">
+                @page {
+                    @top-center {
+                        content: element(header);
+                    }
+                    @bottom-left {
+                        content: element(footer);
+                    }
+                }
+                body {
+                }
+                div.header {
+                    padding: 10px;
+                    position: running(header);
+                }
+                div.footer {
+                    display: block;
+                    padding: 5px;
+                    position: running(footer);
+                }
+                .pagenumber:before {
+                    content: counter(page);
+                }
+                .pagecount:before {
+                    content: counter(pages);
+                 }
+             </style>
+        </head>
+        <body>
+            <div class="header">
+                <table style="width:100%;cellspacing='0'">
+                    <tr>
+                        <td style="{!IF(zqu__Quote__c.Bill_From__c == 'Contentful GmbH', 'width:55%', 'width:55%')};">
+                            <div style="{!IF(zqu__Quote__c.Bill_From__c == 'Contentful GmbH', 'width:60%', 'width:60%')}; float: left;"><img src="https://contentful--c.eu3.content.force.com/servlet/servlet.ImageServer?id=015w0000004VpwI&oid={!$Organization.Id}" width="170" height="37"/></div>
+                        </td>
+                        <td> 
+                            <div style="float: right;font-size:7.5pt;color:#231f20; line-height: 1.5;font-family:sans-serif;color:#231f20;"><img src="https://contentful--c.eu3.content.force.com/servlet/servlet.ImageServer?id=015w0000004VpwX&oid={!$Organization.Id}" width="6" height="9.5"/>  <span style="{!IF(zqu__Quote__c.Bill_From__c == 'Contentful GmbH', '', 'display:none')}">Contentful GmbH, {!$Label.CF_GMBH_Address}</span><span style="{!IF(zqu__Quote__c.Bill_From__c == 'Contentful Inc.', '', 'display:none')}">Contentful Inc. 101 Montgomery Street, Suite 2050 San Francisco, CA 94103, USA</span><br/>
+                            <!--<img src="https://contentful--c.eu3.content.force.com/servlet/servlet.ImageServer?id=015w0000004Vpwh&oid={!$Organization.Id}" width="6" height="6"/>  {!CASE(MONTH(TODAY()),
+                                1, "January",
+                                2, "February",
+                                3, "March", 
+                                4, "April", 
+                                5, "May", 
+                                6, "June",
+                                7, "July",
+                                8, "August",
+                                9, "September",
+                                10, "October",
+                                11, "November",
+                                12, "December",
+                                "None")} {!CASE(DAY(TODAY()),
+                                1, "1st",
+                                2, "2nd",
+                                3, "3rd", 
+                                21, "21st", 
+                                22, "22nd", 
+                                23, "23rd",
+                                31, "31st",
+                                TEXT(DAY(TODAY()))&'th')}--></div>
+                      </td>
+                 </tr>
+            </table>
+            </div>
+            <div style="clear: both;"/>
+            <div class="content" style="{!IF(showBase == true, '', 'display:none')}">
+
+                <br /><br />
+                <h1 style="font-size:16pt;font-weight:bold;text-align:center;color: black;font-family:sans-serif;">SERVICE ORDER</h1>
+                <br /><br />
+                <table cellspacing='0' style="border:0.5px solid #eef2f4;width:100%">
+                    <tr>
+                        <td style="width:150px; background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">COMPANY</td>
+                        <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">{!zqu__Quote__c.zqu__Account__r.Name}</td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px; background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">CONTACT</td>
+                        <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">{!zqu__Quote__c.zqu__SoldToContact__r.Name}</td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px; background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">EMAIL</td>
+                        <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">{!zqu__Quote__c.zqu__SoldToContact__r.Email}</td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px; background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">QUOTE NAME</td>
+                        <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">{!zqu__Quote__c.Name}</td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px; background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">SERVICE ORDER NUMBER</td>
+                        <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">{!zqu__Quote__c.zqu__Number__c}</td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px; background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">VALID UNTIL</td>
+                        <td style="padding:5px;font-size:8.5pt;font-family:sans-serif;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">
+                            <apex:outputText value="{0, date, yyyy/MM/dd}">
+                                <apex:param value="{!zqu__Quote__c.zqu__ValidUntil__c}" /> 
+                            </apex:outputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px; background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">PREPARED BY</td>
+                        <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">{!zqu__Quote__c.CreatedBy.FirstName}  {!zqu__Quote__c.CreatedBy.LastName} ({!zqu__Quote__c.CreatedBy.Email})</td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px; background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">CURRENCY</td>
+                        <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">{!zqu__Quote__c.zqu__Currency__c}</td>
+                    </tr>
+                </table>
+                <br/>
+                <div style="{!IF(showBase == true, '', 'display:none')}">
+                    <h2 style="font-size:8pt;font-weight:bold;color: black;font-family:sans-serif;color:#526171;">PLATFORM</h2>
+                    <table cellspacing='0' style="width:100%;border:0.5px solid #eef2f4;">
+                        <tr>
+                            <th style="background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:left">ITEM</th>
+                            <th style="background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:left">DESCRIPTION</th>
+    
+                        </tr>
+
+                        <apex:repeat var="charge" value="{!charges}">
+                            <tr  style="{!IF(charge.chargeType == 'platform', '', 'display:none')}">
+                                <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;width:20%;">{!charge.name}</td>
+                                <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">{!charge.description}</td>
+                      
+                            </tr> 
+                        </apex:repeat>
+                    </table>  
+                    <br />   
+                </div>
+                
+               <div style="{!IF(showBase == true, '', 'display:none')}">
+                    <h2 style="font-size:8pt;font-weight:bold;color: black;font-family:sans-serif;color:#526171;">PLATFORM FEATURES</h2>
+                    <table cellspacing='0' style="width:100%;border:0.5px solid #eef2f4;">
+                        <tr>
+                            <th style="background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:left">ITEM</th>
+                            <th style="background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:left">DESCRIPTION</th>
+                           
+                        </tr>
+                        <apex:repeat var="charge" value="{!charges}">
+                            <tr  style="{!IF(charge.chargeType == 'addons', IF(charge.name != 'Setup Fee', '', 'display:none'), 'display:none')}">
+                                <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">{!charge.name}</td>
+                                <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">{!charge.description}</td>
+                                
+                            </tr> 
+                        </apex:repeat>
+                    </table>   
+                    <br />
+                </div>
+
+                <div style="{!IF(showBase == true, '', 'display:none')}">
+                    <h2 style="font-size:8pt;font-weight:bold;color: black;font-family:sans-serif;color:#526171;">PROPERTIES</h2>
+                    <table cellspacing='0' style="width:100%;border:0.5px solid #eef2f4;">
+                        <tr>
+                            <th style="background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:left">ITEM</th>
+                            <th style="background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;">UNIT PRICE</th>
+                              <th style="background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;width:15%;text-align:right;font-family:sans-serif;color:#526171;">QUANTITY</th>
+                            <th style="background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;width:15%;text-align:right;font-family:sans-serif;color:#526171;{!IF(zqu__Quote__c.Show_Prices__c == true, '', 'display:none')};width:25%;">AMOUNT</th>
+                        </tr>
+
+                        <apex:repeat var="charge" value="{!charges}">
+                            <tr  style="{!IF(charge.chargeType == 'properties', '', 'display:none')}">
+                                <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;width:20%;">{!charge.name}</td>
+                                <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;">
+                                <apex:outputText value="{0, Number, {!IF(zqu__Quote__c.zqu__Currency__c == 'USD', '$', '')}#,###{!IF(zqu__Quote__c.zqu__Currency__c == 'EUR', '€', '')}}">
+                                        <apex:param value="{!charge.price}" />
+                                      </apex:outputText></td>
+                                <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;text-align:right;font-family:sans-serif;color:#526171;">
+                                <apex:outputText value="{0, Number, #}">
+                                        <apex:param value="{!charge.quantity}" />
+                                      </apex:outputText></td>
+                                <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;text-align:right;font-family:sans-serif;color:#526171;{!IF(zqu__Quote__c.Show_Prices__c == true, '', 'display:none')}">
+                                    <apex:outputText value="{0, Number, {!IF(zqu__Quote__c.zqu__Currency__c == 'USD', '$', '')}#,###{!IF(zqu__Quote__c.zqu__Currency__c == 'EUR', '€', '')}}">
+                                        <apex:param value="{!charge.price*charge.quantity}" />
+                                    </apex:outputText>
+                                </td>
+                            </tr> 
+                        </apex:repeat>
+                         <tr style="{!IF(zqu__Quote__c.Show_Prices__c == true, '', 'display:none')}">
+                                <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;font-weight:bold;">Subtotal</td>
+                                <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;"></td>
+                                 <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;"></td>
+                                <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;">
+                                    <b><apex:outputText value="{0, Number, {!IF(zqu__Quote__c.zqu__Currency__c == 'USD', '$', '')}#,###{!IF(zqu__Quote__c.zqu__Currency__c == 'EUR', '€', '')}}">
+                                        <apex:param value="{!propertiesTotalReccuring}" />
+                                    </apex:outputText></b>
+                                </td>
+                            </tr>
+                    </table>  
+                    <br />   
+                </div>
+
+             
+                <div style="{!IF(showBase == true, '', 'display:none')}">
+                <h2 style="font-size:8pt;font-weight:bold;color: black;font-family:sans-serif;color:#526171;">INCLUDED LIMITS</h2>
+                    <table cellspacing='0' style="width:100%;border:0.5px solid #eef2f4;">
+                        <tr>
+                            <th style="background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;width:15%;text-align:left">ITEM</th>
+                            <th style="background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:left">DESCRIPTION</th>
+                            <th style="background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;width:15%;text-align:right;">INCLUDED</th>
+                            <th style="background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;width:25%;text-align:right;{!IF(zqu__Quote__c.Show_Prices__c == true, '', 'display:none')}">ADDITIONAL FEES / MONTH</th>
+
+                        </tr>
+                            <apex:repeat var="charge" value="{!charges}">
+                            <tr  style="{!IF(charge.chargeType == 'limit', '', 'display:none')}">
+                                <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:left">{!charge.name}</td>
+                                <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:left">{!charge.description}</td>
+                                   <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right">          
+                                      <span style="{!IF(charge.name == 'Users', '', 'display:none')}"><apex:outputText value="{0, Number, #,###}">
+                                        <apex:param value="{!charge.included}" />
+                                      </apex:outputText></span>
+                                      <span style="{!IF(charge.name != 'Users', '', 'display:none')}"> <apex:outputText value="{0, Number, #,###}">
+                                        <apex:param value="{!charge.included * 1000}" />
+                                    </apex:outputText></span>
+                                    </td>
+
+                                <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;{!IF(zqu__Quote__c.Show_Prices__c == true, '', 'display:none')}">
+                                    <span style="{!IF(charge.name != 'Users', '', 'display:none')}"><apex:outputText value="{0, Number, {!IF(zqu__Quote__c.zqu__Currency__c == 'USD', '$', '')}#,###.###{!IF(zqu__Quote__c.zqu__Currency__c == 'EUR', '€', '')}}">
+                                        <apex:param value="{!charge.price}" />
+                                    </apex:outputText> per 1,000</span>
+                                    <span style="{!IF(charge.name == 'Users', '', 'display:none')}"><apex:outputText value="{0, Number, {!IF(zqu__Quote__c.zqu__Currency__c == 'USD', '$', '')}#,###.###{!IF(zqu__Quote__c.zqu__Currency__c == 'EUR', '€', '')}}">
+                                        <apex:param value="{!charge.price}" />
+                                    </apex:outputText> per 1</span>
+                                </td>
+                              
+                            </tr> 
+                        </apex:repeat>
+                        <!--    <tr style="{!IF(numberOfProjects > 0, '', 'display:none')}">
+                                <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:left">Production Spaces</td>
+                                <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:left">A combined total of available development and production environments</td>
+                                <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right">{!numberOfProjects}</td>
+                                <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right">Included</td>
+                            </tr>-->
+                    </table>
+                     <br/>
+                </div>
+               
+ 
+                <div style="{!IF(showSLA == true, '', 'display:none')}">
+                    <h2 style="font-size:8pt;font-weight:bold;color: black;font-family:sans-serif;color:#526171;">SLA PACKAGE</h2>
+                       <table cellspacing='0' style="width:100%;border:0.5px solid #eef2f4;">
+                                    <tr>
+                                        <th style="background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;width:20%;text-align:left;">ITEM</th>
+                                        <th style="background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:left;">DESCRIPTION</th>
+                                        <th style="background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;width:25%;text-align:right;{!IF(zqu__Quote__c.Show_Prices__c == true, '', 'display:none')}">ANNUAL SUBSCRIPTION FEE</th>
+                                    </tr>
+                                   <apex:repeat var="charge" value="{!charges}">                           
+                                    <tr style="{!IF(charge.chargeType == 'sla', '', 'display:none')}">
+                                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">{!charge.name}</td>
+                                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">{!charge.description}</td>
+                                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;{!IF(zqu__Quote__c.Show_Prices__c == true, '', 'display:none')}">           
+                                                <span style="{!IF(charge.price > 0, '', 'display:none')}">
+                                                    <apex:outputText value="{0, Number, {!IF(zqu__Quote__c.zqu__Currency__c == 'USD', '$', '')}#,###{!IF(zqu__Quote__c.zqu__Currency__c == 'EUR', '€', '')}}">
+                                                        <apex:param value="{!slaTotalReccuring}" />
+                                                    </apex:outputText>
+                                                </span>
+                                                <span style="{!IF(charge.price == 0, '', 'display:none')}">Included</span>
+                                             
+                                            </td>
+                                        </tr>
+                                    </apex:repeat>
+                                </table>    
+                    <br />
+                    <table cellspacing='0' style="width:100%;border:0;">
+                        <tr>
+
+                            <td>
+                                 <table cellspacing='0' style="width:100%;border:0.5px solid #eef2f4;">
+                                    <tr>
+                                        <th style="background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;width:15%;text-align:left;">SERVICE COMPONENT</th>
+                                        <th style="background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;width:15%;text-align:right;">COMPONENT PERFORMANCE TARGET</th>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">Content Delivery API</td>
+                                        <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;">{!IF(isSilverSLA != true, IF(isGoldSLA != true, '99.9%', '99.7%'), '99.5%')}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">Content Asset CDN</td>
+                                        <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;">{!IF(isSilverSLA != true, IF(isGoldSLA != true, '99.9%', '99.7%'), '99.5%')}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">Content Management</td>
+                                        <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;">99.5%</td>
+                                    </tr>
+                                </table> 
+                            </td>  
+                            <td style="width:2%;"></td> 
+                            <td>
+                                <table cellspacing='0' style="width:100%;border:0.5px solid #eef2f4;">
+                                    <tr>
+                                        <th style="background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;width:15%;text-align:left;">SEVERITY LEVEL DETERMINATION</th>
+                                        <th style="background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;width:15%;;text-align:right;">RESPONSE TIME</th>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">Severity 1 - Critical</td>
+                                        <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;">{!IF(isSilverSLA != true, IF(isGoldSLA != true, '1 hour', '2 hours'), '8 business hours')}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">Severity 2 - High</td>
+                                        <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;">{!IF(isSilverSLA != true, IF(isGoldSLA != true, '2 business hours', '4 business hours'), '16 business hours')}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">Severity 3 - Low</td>
+                                        <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;">{!IF(isSilverSLA != true, IF(isGoldSLA != true, '4 business hours', '8 business hours'), '24 business hours')}</td>
+                                    </tr>
+                                </table> 
+                            </td>
+                            <td style="width:2%;"></td> 
+                            <td>
+                     
+                                <table cellspacing='0' style="width:100%;border:0.5px solid #eef2f4;">
+                                    <tr>
+                                        <th style="background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;width:15%;text-align:left;">SUPPORT CHANNEL</th>
+                                        <th style="background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;width:15%;text-align:right;">INCLUDED</th>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">Web ticket</td>
+                                        <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;">Yes</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">Email</td>
+                                        <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;">Yes</td>
+                                    </tr>
+                                </table> 
+                           </td>
+                        </tr>
+                     </table>
+                  <br />
+                </div>
+            
+                <div style="{!IF(discountTotalReccuring + discountTotalOneTime != 0, '', 'display:none')}">
+                    <h2 style="font-size:8pt;font-weight:bold;color: black;font-family:sans-serif;color:#526171;">INCENTIVES</h2>
+                    <table cellspacing='0' style="width:100%;border:0.5px solid #eef2f4;">
+                        <tr>
+                            <th style="background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:left">ITEM</th>
+                            <th style="width:15%;background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;">INCLUDED</th>
+                        </tr>
+                        <tr style="{!IF(zqu__quote__c.X3_Year_Contract_Term_Discount__c == true, '', 'display:none')}">
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">Multi-year commitment discount</td>
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;">Yes</td>
+                        </tr>   
+                        <tr style="{!IF(zqu__quote__c.Annual_Prepayment__c == true, '', 'display:none')}">
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">Annual prepayment discount</td>
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;">Yes</td>
+                        </tr>  
+                        <tr style="{!IF(zqu__quote__c.Marketing_Case_Study__c == true, '', 'display:none')}">
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">Marketing case study discount</td>
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;">Yes</td>
+                        </tr>  
+                        <tr style="{!IF(zqu__quote__c.End_of_Month_Incentive__c == true, '', 'display:none')}">
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">
+                                End of {!CASE(MONTH(zqu__quote__c.zqu__ValidUntil__c),
+                                    1, "January",
+                                    2, "February",
+                                    3, "March", 
+                                    4, "April", 
+                                    5, "May", 
+                                    6, "June",
+                                    7, "July",
+                                    8, "August",
+                                    9, "September",
+                                    10, "October",
+                                    11, "November",
+                                    12, "December",
+                                    "None")} incentive discount
+                            </td>
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;text-align:right;font-family:sans-serif;color:#526171;">Yes</td>
+                        </tr>  
+                            <tr>
+                                <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-weight:bold;font-family:sans-serif;color:#526171;">Subtotal</td>
+                                <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;text-align:right;font-family:sans-serif;color:#526171;">
+
+                                <b><apex:outputText value="{0, Number, -{!IF(zqu__Quote__c.zqu__Currency__c == 'USD', '$', '')}#,###{!IF(zqu__Quote__c.zqu__Currency__c == 'EUR', '€', '')}}">
+                                    <apex:param value="{!((discountTotalReccuring)/100) * (platformTotalReccuring+addonsTotalReccuring+slaTotalReccuring)}" />
+                                </apex:outputText></b></td>
+                            </tr>         
+                    </table> 
+                        <br/> 
+                </div>
+            
+                <h2 style="font-size:8pt;font-weight:bold;color: black;font-family:sans-serif;color:#526171;">PRICE SUMMARY</h2>
+                <div style="{!IF(platformTotalReccuring + addonsTotalReccuring + slaTotalReccuring + discountTotalReccuring > 0, '', 'display:none')}">
+                    <h3 style="font-size:7.5pt;font-weight:bold;color: black;font-family:sans-serif;color:#526171;">Subscription Fees (recurring)</h3>
+                    <table cellspacing='0' style="width:100%;border:0.5px solid #eef2f4;">
+                        <tr>
+                            <th style="background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">ITEM</th>
+                            <th style="background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;width:15%;text-align:right;">ANNUAL PRICE</th>
+                        </tr>
+                        <tr style="{!IF(platformTotalReccuring != 0, '', 'display:none')}">
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">Platform</td>
+                          <!--  <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;{!IF(showProjects == true, '', 'display:none')}">Projects</td>-->
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;">
+                                <apex:outputText value="{0, Number, {!IF(zqu__Quote__c.zqu__Currency__c == 'USD', '$', '')}#,###{!IF(zqu__Quote__c.zqu__Currency__c == 'EUR', '€', '')}}">
+                                    <apex:param value="{!platformTotalReccuring}" />
+                                </apex:outputText> 
+                            </td>
+                       </tr>
+                       <tr style="{!IF(propertiesTotalReccuring != 0, '', 'display:none')}">
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">Properties</td>
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;">
+                                <apex:outputText value="{0, Number, {!IF(zqu__Quote__c.zqu__Currency__c == 'USD', '$', '')}#,###{!IF(zqu__Quote__c.zqu__Currency__c == 'EUR', '€', '')}}">
+                                    <apex:param value="{!propertiesTotalReccuring}" />
+                                </apex:outputText> 
+                            </td>
+                       </tr>
+                       <tr style="{!IF(addonsTotalReccuring != 0, '', 'display:none')}">
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">Add-on features </td>
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;">
+                                <apex:outputText value="{0, Number, {!IF(zqu__Quote__c.zqu__Currency__c == 'USD', '$', '')}#,###{!IF(zqu__Quote__c.zqu__Currency__c == 'EUR', '€', '')}}">
+                                    <apex:param value="{!addonsTotalReccuring}" />
+                                </apex:outputText> 
+                            </td>
+                       </tr>
+                       <tr style="{!IF(slaTotalReccuring != 0, '', 'display:none')}">
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">SLA Package </td>
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;">
+                                <apex:outputText value="{0, Number, {!IF(zqu__Quote__c.zqu__Currency__c == 'USD', '$', '')}#,###{!IF(zqu__Quote__c.zqu__Currency__c == 'EUR', '€', '')}}">
+                                    <apex:param value="{!slaTotalReccuring}" />
+                                </apex:outputText> 
+                            </td>
+                       </tr>
+
+                       <tr style="{!IF(discountTotalReccuring != 0, '', 'display:none')}">
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;"><b>Subtotal </b></td>
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;">
+                                <b><apex:outputText value="{0, Number, {!IF(zqu__Quote__c.zqu__Currency__c == 'USD', '$', '')}#,###{!IF(zqu__Quote__c.zqu__Currency__c == 'EUR', '€', '')}}">
+                                    <apex:param value="{!(platformTotalReccuring+addonsTotalReccuring+slaTotalReccuring+propertiesTotalReccuring)}" />
+                                </apex:outputText></b>
+                            </td>
+                       </tr>
+                       <tr style="{!IF(discountTotalReccuring != 0, '', 'display:none')}" >
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">Incentives 
+                            <apex:outputText value="{0, Number, (#'%')}">
+                                    <apex:param value="{!discountTotalReccuring}" />
+                                </apex:outputText></td>
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;">
+                                <apex:outputText value="{0, Number, -{!IF(zqu__Quote__c.zqu__Currency__c == 'USD', '$', '')}#,###{!IF(zqu__Quote__c.zqu__Currency__c == 'EUR', '€', '')}}">
+                                    <apex:param value="{!(discountTotalReccuring / 100) * (platformTotalReccuring+addonsTotalReccuring+slaTotalReccuring+propertiesTotalReccuring)}" />
+                                </apex:outputText> 
+                            </td>
+
+                       </tr>
+                       <tr>
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;"><b>Total</b></td>
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;">
+                                <b><apex:outputText value="{0, Number, {!IF(zqu__Quote__c.zqu__Currency__c == 'USD', '$', '')}#,###{!IF(zqu__Quote__c.zqu__Currency__c == 'EUR', '€', '')}}">
+                                    <apex:param value="{!(platformTotalReccuring+addonsTotalReccuring+slaTotalReccuring+propertiesTotalReccuring)-((discountTotalReccuring / 100) * (platformTotalReccuring+addonsTotalReccuring+slaTotalReccuring+propertiesTotalReccuring))}" />
+                                </apex:outputText></b>
+                            </td>
+                       </tr>
+                   </table>
+                    <br />
+                 </div>
+               <div style="{!IF(setupFee + platformTotalOneTime + addonsTotalOneTime + slaTotalOneTime + discountTotalOneTime > 0, '', 'display:none')}">
+                    <h3 style="font-size:7.5pt;font-weight:bold;color: black;font-family:sans-serif;color:#526171;">One-Time Fees</h3>
+                    <table cellspacing='0' style="width:100%;border:0.5px solid #eef2f4;">
+                        <tr>
+                            <th style="background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">ITEM</th>
+                            <th style="background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;width:15%;text-align:right;">PRICE</th>
+                        </tr>
+                        <!--<tr style="{!IF(platformTotalOneTime != 0, '', 'display:none')}">
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">Platform</td>
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;">
+                                <apex:outputText value="{0, Number, {!IF(zqu__Quote__c.zqu__Currency__c == 'USD', '$', '')}#,###{!IF(zqu__Quote__c.zqu__Currency__c == 'EUR', '€', '')}}">
+                                    <apex:param value="{!platformTotalOneTime}" />
+                                </apex:outputText> 
+                            </td>
+                       </tr>-->
+                       <tr style="{!IF(setupFee != 0, '', 'display:none')}">
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">Setup Fee </td>
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;">
+                                <apex:outputText value="{0, Number, {!IF(zqu__Quote__c.zqu__Currency__c == 'USD', '$', '')}#,###{!IF(zqu__Quote__c.zqu__Currency__c == 'EUR', '€', '')}}">
+                                    <apex:param value="{!setupFee}" />
+                                </apex:outputText> 
+                            </td>
+                       </tr>
+                       <!--<tr style="{!IF(slaTotalOneTime != 0, '', 'display:none')}">
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">SLA Package </td>
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;">
+                                <apex:outputText value="{0, Number, {!IF(zqu__Quote__c.zqu__Currency__c == 'USD', '$', '')}#,###{!IF(zqu__Quote__c.zqu__Currency__c == 'EUR', '€', '')}}">
+                                    <apex:param value="{!slaTotalOneTime}" />
+                                </apex:outputText> 
+                            </td>
+                       </tr>
+                       <tr style="{!IF(discountTotalOneTime != 0, '', 'display:none')}" >
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">Discounts </td>
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;">
+                                <apex:outputText value="{0, Number, {!IF(zqu__Quote__c.zqu__Currency__c == 'USD', '$', '')}#,###{!IF(zqu__Quote__c.zqu__Currency__c == 'EUR', '€', '')}}">
+                                    <apex:param value="{!(discountTotalOneTime / 100) * discountTotalOneTime}" />
+                                </apex:outputText> 
+                            </td>
+
+                       </tr>-->
+                       <tr>
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;"><b>Total</b></td>
+                            <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;text-align:right;">
+                                <b><apex:outputText value="{0, Number, {!IF(zqu__Quote__c.zqu__Currency__c == 'USD', '$', '')}#,###{!IF(zqu__Quote__c.zqu__Currency__c == 'EUR', '€', '')}}">
+                                    <apex:param value="{!(setupFee)}" />
+                                </apex:outputText></b>
+                            </td>
+                       </tr>
+                   </table>
+                    <br />
+                 </div>
+
+                 <div style="{!IF(showSLA == true, '', 'display:none')}">
+                 </div>
+                <h2 style="font-size:8pt;font-weight:bold;color: black;font-family:sans-serif;color:#526171;">CONTRACT DETAILS</h2>
+                <table cellspacing='0' style="width:100%;border:0.5px solid #eef2f4;">
+                    <tr>
+                        <td style="width:40%; background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">SUBSCRIPTION TERM</td>
+                        <td style="padding:5px;font-size:8pt;border:0.5px solid #eef2f4;text-align:right;font-family:sans-serif;color:#526171;">{!ROUND(zqu__Quote__c.Initial_Term__c, 0)} 
+                        {!IF(zqu__Quote__c.Payment__c == 'Annual', 'year(s)', IF(zqu__Quote__c.Payment__c == 'Quarterly', 'quarter(s)', 'month(s)'))}</td>
+                    </tr>
+                    <tr style="{!IF(ROUND(zqu__Quote__c.Initial_Term__c, 0) != ROUND(zqu__Quote__c.Renewal_Term__c, 0), '', 'display:none')}">
+                        <td style="width:40%; background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">SUBSCRIPTION RENEWAL TERM</td>
+                        <td style="padding:5px;font-size:8pt;border:0.5px solid #eef2f4;text-align:right;font-family:sans-serif;color:#526171;">{!ROUND(zqu__Quote__c.Renewal_Term__c, 0)} 
+                        {!IF(zqu__Quote__c.Payment__c == 'Annual', 'year(s)', IF(zqu__Quote__c.Payment__c == 'Quarterly', 'quarters(s)', 'month(s)'))}</td>
+                    </tr>
+                    <tr style="{!IF(zqu__Quote__c.zqu__AutoRenew__c != true, '', 'display:none')}">
+                       <td style="width:40%; background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">AUTO-RENEWAL</td>
+                       <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;text-align:right;font-family:sans-serif;color:#526171;">No</td>
+                   </tr>
+                    <tr>
+                       <td style="width:40%; background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">EFFECTIVE DATE</td>
+                       <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;text-align:right;font-family:sans-serif;color:#526171;">
+                            <apex:outputText value="{0, date, yyyy/MM/dd}">
+                                <apex:param value="{!zqu__Quote__c.zqu__StartDate__c}" /> 
+                            </apex:outputText>
+                        </td>
+                   </tr>
+                   <tr style="{!IF(zqu__Quote__c.Payment__c != 'Annual', '', 'display:none')}">
+                       <td style="width:40%; background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">PAYMENT</td>
+                       <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;text-align:right;font-family:sans-serif;color:#526171;">{!zqu__Quote__c.Payment__c}</td>
+                   </tr>
+                   <tr> 
+                       <td style="width:40%; background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">PAYMENT TERMS</td>
+                       <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;text-align:right;font-family:sans-serif;color:#526171;">{!zqu__Quote__c.zqu__PaymentTerm__c}, payable upfront</td>
+                   </tr>
+               </table>
+               <br/>
+               <table cellspacing='0' style="width:100%;border:0.5px solid #eef2f4;{!IF(zqu__Quote__c.Special_Terms_and_Notes__c != '', '', 'display:none')}">
+                   <tr>
+                       <td style="width:120px; background-color:#f7f9fa;padding:5px;font-size:8pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;">SPECIAL NOTES AND TERMS: </td>
+                   </tr>
+                   <tr>
+                       <td style="padding:5px;font-size:8.5pt;border:0.5px solid #eef2f4;font-family:sans-serif;color:#526171;"><apex:outputField value="{!zqu__Quote__c.Special_Terms_and_Notes__c}"/></td>
+                   </tr>
+               </table>
+                <p style="font-size:6.5pt;padding:10px;font-family:sans-serif;color:#5e5e5e;"><b>Terms &amp; Conditions:</b> This Service Order hereby incorporates by reference the Contentful Enterprise Customer Agreement {!IF(zqu__Quote__c.Master_Agreement_URL__c == 'Offline contract template', 'executed by the parties', 'located at ' + zqu__Quote__c.Master_Agreement_URL__c)}  (the “Incorporated Terms”), and together with the Incorporated Terms forms a binding and executed written agreement between {!zqu__Quote__c.Bill_From__c} (“Contentful”) and Customer. Capitalized terms used but not defined herein have the meanings set forth in the Incorporated Terms.</p>             
+
+           
+              <table style="width:100%">
+                <tr>
+                    <td style="width:50%;">    
+                      <table border='0' cellspacing='0' style='width:100%;float:left;'>
+                             <tr>
+                               <td style="width:12%;padding:5px;font-size:8.5pt;font-family:sans-serif;color:#526171;">SIGNATURE</td>
+                               <td style="border-bottom: #eef2f4 1px solid;color:white;">\s1\</td>
+                               <td style="width:5%"></td>
+                           </tr>
+                           <tr>
+                               <td style="width:12%;padding:5px;font-size:8.5pt; font-family:sans-serif;color:#526171;">COMPANY</td>
+                               <td style="border-bottom: #eef2f4 1px solid;color:white;">\co1\</td>
+                               <td></td>
+                           </tr>
+                           <tr>
+                               <td style="width:12%;padding:5px;font-size:8.5pt; font-family:sans-serif;color:#526171;">NAME</td>
+                               <td style="border-bottom: #eef2f4 1px solid;color:white;">\n1\</td>
+                               <td></td>
+                           </tr>
+                           <tr>
+                               <td style="width:12%;padding:5px;font-size:8.5pt; font-family:sans-serif;color:#526171;">TITLE</td>
+                               <td style="border-bottom: #eef2f4 1px solid;color:white;">\t1\</td>
+                               <td></td>
+                           </tr>
+                           <tr>
+                               <td style="width:12%;padding:5px;font-size:8.5pt;font-family:sans-serif;color:#526171;">DATE</td>
+                               <td style="border-bottom: #eef2f4 1px solid;color:white;">\d1\</td>
+                               <td></td>
+                           </tr>
+                       </table>
+                    </td>
+                    <td style="width:50%;">
+                       <table border='0' cellspacing='0' style='width:100%:float:right;'>
+                             <tr>
+                               <td style="width:12%;padding:5px;font-size:8.5pt;font-family:sans-serif;color:#526171;">SIGNATURE</td>
+                               <td style="border-bottom: #eef2f4 1px solid;color:white;">\s2\</td>
+                               <td style="width:5%"></td>
+           
+                           </tr>
+                           <tr>
+                               <td style="width:12%;padding:5px;font-size:8.5pt; font-family:sans-serif;color:#526171;">COMPANY</td>
+                               <td style="border-bottom: #eef2f4 1px solid;color:white;">\co2\</td>
+                               <td></td>
+                           </tr>
+                           <tr>
+                               <td style="width:12%;padding:5px;font-size:8.5pt; font-family:sans-serif;color:#526171;">NAME</td>
+                               <td style="border-bottom: #eef2f4 1px solid;color:white;">\n2\</td>
+                               <td></td>
+                           </tr>
+                           <tr>
+                               <td style="width:12%;padding:5px;font-size:8.5pt; font-family:sans-serif;color:#526171;">TITLE</td>
+                               <td style="border-bottom: #eef2f4 1px solid;color:white;">\t2\</td>
+                               <td></td>
+                           </tr>
+                           <tr>
+                               <td style="width:12%;padding:5px;font-size:8.5pt;font-family:sans-serif;color:#526171;">DATE</td>
+                               <td style="border-bottom: #eef2f4 1px solid;color:white;">\d2\</td>
+                               <td></td>
+                           </tr>
+                       </table>
+                    </td>
+                </tr>
+                <tr><td style="width:5%"></td></tr>
+                <tr>
+                    <td style="width:50%;">    
+                      <table border="0" cellspacing="0" style="width:100%;float:left;{!IF(zqu__Quote__c.Multiple_Signers__c == '4', '', 'display:none')}">
+                             <tr>
+                               <td style="width:12%;padding:5px;font-size:8.5pt;font-family:sans-serif;color:#526171;">SIGNATURE</td>
+                               <td style="border-bottom: #eef2f4 1px solid;color:white;">\s3\</td>
+                               <td style="width:5%"></td>
+                           </tr>
+                           <tr>
+                               <td style="width:12%;padding:5px;font-size:8.5pt; font-family:sans-serif;color:#526171;">COMPANY</td>
+                               <td style="border-bottom: #eef2f4 1px solid;color:white;">\co3\</td>
+                               <td></td>
+                           </tr>
+                           <tr>
+                               <td style="width:12%;padding:5px;font-size:8.5pt; font-family:sans-serif;color:#526171;">NAME</td>
+                               <td style="border-bottom: #eef2f4 1px solid;color:white;">\n3\</td>
+                               <td></td>
+                           </tr>
+                           <tr>
+                               <td style="width:12%;padding:5px;font-size:8.5pt; font-family:sans-serif;color:#526171;">TITLE</td>
+                               <td style="border-bottom: #eef2f4 1px solid;color:white;">\t3\</td>
+                               <td></td>
+                           </tr>
+                           <tr>
+                               <td style="width:12%;padding:5px;font-size:8.5pt;font-family:sans-serif;color:#526171;">DATE</td>
+                               <td style="border-bottom: #eef2f4 1px solid;color:white;">\d3\</td>
+                               <td></td>
+                           </tr>
+                       </table>
+                    </td>
+                    <td style="width:50%;">
+                       <table border="0" cellspacing="0" style="width:100%;float:right;{!IF(zqu__Quote__c.Multiple_Signers__c == '3', '', IF(zqu__Quote__c.Multiple_Signers__c == '4', '', 'display:none'))}">
+                           <tr>
+                               <td style="width:12%;padding:5px;font-size:8.5pt;font-family:sans-serif;color:#526171;">SIGNATURE</td>
+                               <td style="border-bottom: #eef2f4 1px solid;color:white;">\s4\</td>
+                               <td style="width:5%"></td>
+                           </tr>
+                           <tr>
+                               <td style="width:12%;padding:5px;font-size:8.5pt; font-family:sans-serif;color:#526171;">COMPANY</td>
+                               <td style="border-bottom: #eef2f4 1px solid;color:white;">\co4\</td>
+                               <td></td>
+                           </tr>
+                           <tr>
+                               <td style="width:12%;padding:5px;font-size:8.5pt; font-family:sans-serif;color:#526171;">NAME</td>
+                               <td style="border-bottom: #eef2f4 1px solid;color:white;">\n4\</td>
+                               <td></td>
+                           </tr>
+                           <tr>
+                               <td style="width:12%;padding:5px;font-size:8.5pt; font-family:sans-serif;color:#526171;">TITLE</td>
+                               <td style="border-bottom: #eef2f4 1px solid;color:white;">\t4\</td>
+                               <td></td>
+                           </tr>
+                           <tr>
+                               <td style="width:12%;padding:5px;font-size:8.5pt;font-family:sans-serif;color:#526171;">DATE</td>
+                               <td style="border-bottom: #eef2f4 1px solid;color:white;">\d4\</td>
+                               <td></td>
+                           </tr>
+                       </table>
+                    </td>
+                </tr>
+             </table>
+            </div>
+        </body>
+    </html>
+</apex:page>

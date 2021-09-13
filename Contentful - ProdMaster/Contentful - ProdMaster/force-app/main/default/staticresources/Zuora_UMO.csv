@@ -1,0 +1,32 @@
+ID,NAME,CURRENCYISOCODE,ZQU__ACTIVE__C,ZQU__UOM_PRECISION__C,ZQU__UOM_ROUNDING_MODE__C,ZQU__BILLINGENTITY__C,ZQU__UOMFULLNAME__C
+a1P1r00000DgtTAEAZ,Environment Limit,USD,TRUE,0,Up,a2fw0000000KkDiAAK,Environment Limit
+a1Pw0000009uJLpEAM,Project,USD,TRUE,0,Up,a2fw0000000KkDiAAK,Project
+a1P1r00000EyFFWEA3,Additional Users (Flat fee),USD,TRUE,0,Up,a2fw0000000KkDiAAK,Additional Users (Flat fee)
+a1P1r00000EyFFXEA3,Additional asset bandwidth (Utility fee),USD,TRUE,0,Up,a2fw0000000KkDiAAK,Additional asset bandwidth (Utility fee)
+a1P1r00000EyFFYEA3,Additional API calls (Utility fee),USD,TRUE,0,Up,a2fw0000000KkDiAAK,Additional API calls (Utility fee)
+a1Pw0000009u1kbEAA,API Request Limit Period,USD,TRUE,3,Up,a2fw0000000KkDiAAK,API Request Limit Period
+a1Pw0000009tyyTEAQ,Webhook Definition Limit,USD,TRUE,0,Up,a2fw0000000KkDiAAK,Webhook Definition Limit
+a1Pw0000009tyyUEAQ,Asset Limit,USD,TRUE,0,Up,a2fw0000000KkDiAAK,Asset Limit
+a1Pw0000009tyyVEAQ,Organization Membership Limit,USD,TRUE,0,Up,a2fw0000000KkDiAAK,Organization Membership Limit
+a1Pw0000009tyyWEAQ,Role Limit,USD,TRUE,0,Up,a2fw0000000KkDiAAK,Role Limit
+a1Pw0000009tyyXEAQ,Entry Limit,USD,TRUE,0,Up,a2fw0000000KkDiAAK,Entry Limit
+a1Pw0000009tyyYEAQ,Content Type Limit,USD,TRUE,0,Up,a2fw0000000KkDiAAK,Content Type Limit
+a1Pw0000009tyyZEAQ,API Key Limit,USD,TRUE,0,Up,a2fw0000000KkDiAAK,API Key Limit
+a1Pw0000009tyySEAQ,Space Limit,USD,TRUE,0,Up,a2fw0000000KkDiAAK,Space Limit
+a1Pw0000009tyyaEAA,Training - Hour,USD,TRUE,0,Up,a2fw0000000KkDiAAK,Training - Hour
+a1Pw0000009tyybEAA,Consulting - Hour,USD,TRUE,0,Up,a2fw0000000KkDiAAK,Consulting - Hour
+a1Pw0000009tyycEAA,Record Limit,USD,TRUE,3,Up,a2fw0000000KkDiAAK,Record Limit
+a1Pw0000009tyyPEAQ,Content Delivery API Request Limit Period,USD,TRUE,0,Up,a2fw0000000KkDiAAK,Content Delivery API Request Limit Period
+a1Pw0000009tyyQEAQ,Locale Limit,USD,TRUE,0,Up,a2fw0000000KkDiAAK,Locale Limit
+a1Pw0000009tyyREAQ,Asset Bandwidth Limit Period,USD,TRUE,0,Up,a2fw0000000KkDiAAK,Asset Bandwidth Limit Period
+a1Pw0000009tyyiEAA,Content Delivery API Rate Second Limit,USD,TRUE,0,Up,a2fw0000000KkDiAAK,Content Delivery API Rate Second Limit
+a1Pw0000009tyydEAA,Basic Roles Feature,USD,TRUE,0,Up,a2fw0000000KkDiAAK,Basic Roles Feature
+a1Pw0000009tyyjEAA,Content Delivery API Rate Hour Limit,USD,TRUE,0,Up,a2fw0000000KkDiAAK,Content Delivery API Rate Hour Limit
+a1Pw0000009tyyeEAA,Content Preview API Rate Second Limit,USD,TRUE,0,Up,a2fw0000000KkDiAAK,Content Preview API Rate Second Limit
+a1Pw0000009tyyfEAA,Content Preview API Rate Hour Limit,USD,TRUE,0,Up,a2fw0000000KkDiAAK,Content Preview API Rate Hour Limit
+a1Pw0000009tyygEAA,Content Management API Rate Second Limit,USD,TRUE,0,Up,a2fw0000000KkDiAAK,Content Management API Rate Second Limit
+a1Pw0000009tyyhEAA,Content Management API Rate Hour Limit,USD,TRUE,0,Up,a2fw0000000KkDiAAK,Content Management API Rate Hour Limit
+a1P1r00000GcNs5EAF,GraphQL API Rate Hour Limit,USD,TRUE,0,Up,a2fw0000000KkDiAAK,GraphQL API Rate Hour Limit
+a1P1r00000GcNs6EAF,Graphql Content API Rate Second Limit,USD,TRUE,0,Up,a2fw0000000KkDiAAK,Graphql Content API Rate Second Limit
+a1P1r00000GcNs7EAF,Graphql Content API Rate Hour Limit,USD,TRUE,0,Up,a2fw0000000KkDiAAK,Graphql Content API Rate Hour Limit
+a1P1r00000GcNs4EAF,GraphQL API Rate Second Limit,USD,TRUE,0,Up,a2fw0000000KkDiAAK,GraphQL API Rate Second Limit

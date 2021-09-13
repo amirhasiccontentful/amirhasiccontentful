@@ -1,0 +1,4 @@
+ID,ISDELETED,NAME,CURRENCYISOCODE,ZQU__QUOTE__C,ZQU__AUTORENEW__C,ZQU__DELTAMRR__C,ZQU__DESCRIPTION__C,ZQU__STATUS__C,ZQU__TOTALAMOUNT__C,ZQU__TYPE__C,ZQU__INITIALTERMPERIODTYPE__C,ZQU__RENEWALTERMPERIODTYPE__C,ZQU__CANCELLATIONPOLICY__C
+a121r00000aRO9mAAG,FALSE,a121r00000aRO9m,USD,a1D1r00000M1p6xEAB,,2000.7,"Added Product Committed: Default (April 2018) - Annual, RatePlan Performance 1x",Draft,24008.4,NewProduct,Month,Month,Enter a Date
+a121r00000aRO9rAAG,FALSE,a121r00000aRO9r,USD,a1D1r00000M1p6xEAB,,1900,"Added Product Committed: Default (April 2018) - Annual, RatePlan Professional",Draft,22800,NewProduct,Month,Month,Enter a Date
+a121r00000aRO9wAAG,FALSE,a121r00000aRO9w,USD,a1D1r00000M1p6xEAB,,0,"Added Product Committed: Default (April 2018) - Annual, RatePlan Platinum SLA",Draft,0,NewProduct,Month,Month,Enter a Date

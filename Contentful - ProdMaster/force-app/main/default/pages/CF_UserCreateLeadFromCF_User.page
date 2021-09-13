@@ -1,0 +1,1 @@
+<apex:page standardController="CF_User__c" extensions="CF_UserDetailButtonController" action="{!createLeadFromCF_User}"/>

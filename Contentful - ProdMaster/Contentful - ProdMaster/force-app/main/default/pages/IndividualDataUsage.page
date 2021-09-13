@@ -1,0 +1,9 @@
+<apex:page standardController="CF_Organization__c" applyHtmlTag="false" showheader="false">
+<!-- <apex:iframe src="https://contentful.eu.looker.com/embed/dashboards/371?Organization%20Key={!CF_Organization__c.gk_key__c}"
+  width="100%" height="2400px" id="account_app_usage" scrolling="true"/>     -->
+
+  <c:CF_EmbeddLooker embedPath="/embed/dashboards/371?Organization%20Key={!CF_Organization__c.gk_key__c}" lookerModels="data_models" 
+      lookerPermissions="access_data,clear_cache_refresh,download_with_limit,schedule_look_emails,see_drill_overlay,see_lookml_dashboards,see_looks,see_user_dashboards,send_to_integration" 
+      lookerAccessFilters="{'All':{}}"/> 
+ 
+</apex:page>

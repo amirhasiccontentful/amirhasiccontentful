@@ -1,0 +1,30 @@
+<apex:page standardController="Lead" extensions="CF_LeadDetailZendeskController" >
+	<apex:outputText value="{!Lead.email}" rendered="false"/>
+
+	<apex:form >
+	 <apex:pageblock id="CustomList" title="Tickets">
+		
+	   <apex:pageBlockTable value="{!tickets}" var="t">
+	        <apex:column >
+	        	<apex:outputLink target="_parent" value="/{!t.id}">{!t.Zendesk__Subject__c}</apex:outputLink>
+	        </apex:column>
+	        <apex:column value="{!t.Zendesk__Priority__c}"/>
+	        <apex:column value="{!t.Zendesk__Tags__c}"/>
+	        <apex:column value="{!t.Zendesk__Date_Time_solved__c}"/>
+	        <apex:column value="{!t.Zendesk__Date_Time_created__c}"/>
+	   </apex:pageBlockTable>
+
+       <apex:panelGrid columns="7">
+           <apex:commandButton status="fetchStatus" reRender="CustomList" value="|<" action="{!first}" disabled="{!!hasPrevious}" title="First Page"/>
+           <apex:commandButton status="fetchStatus" reRender="CustomList" value="<" action="{!previous}" disabled="{!!hasPrevious}" title="Previous Page"/>
+           <apex:commandButton status="fetchStatus" reRender="CustomList" value=">" action="{!next}" disabled="{!!hasNext}" title="Next Page"/>
+           <apex:commandButton status="fetchStatus" reRender="CustomList" value=">|" action="{!last}" disabled="{!!hasNext}" title="Last Page"/>
+           <apex:outputText >{!(pageNumber * size)+1-size}-{!IF((pageNumber * size)>noOfRecords, noOfRecords,(pageNumber * size))} of {!noOfRecords}</apex:outputText>
+           <apex:commandButton status="fetchStatus" reRender="CustomList" value="Refresh" action="{!refresh}" title="Refresh Page"/>
+           <apex:outputPanel style="color:#4AA02C;font-weight:bold">
+               <apex:actionStatus id="fetchStatus" startText="Fetching..." stopText=""/>
+           </apex:outputPanel>
+       </apex:panelGrid>	   
+	 </apex:pageblock>
+	</apex:form>
+</apex:page>

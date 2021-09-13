@@ -1,0 +1,2 @@
+<apex:page standardController="Account" extensions="RecalculateZuoraAccountRollups" action="{!zuoraAccountRollups}">
+</apex:page>

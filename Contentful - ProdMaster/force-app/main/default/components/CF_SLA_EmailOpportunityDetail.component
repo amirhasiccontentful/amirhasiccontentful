@@ -1,0 +1,46 @@
+<apex:component controller="CF_SLA_EmailOpportunityDetail" access="global">
+
+    <apex:attribute name="OppId" type="Id" description="Id of the opportunity" assignTo="{!opportunityId}"/>
+    <apex:attribute name="HandoverType" type="String" description="Handover record type for the specified opportunity" assignTo="{!handoverRecordType}"/>
+    
+    Hello teams! <br/><br/>
+
+    We have closed a new deal! See details below: <br/><br/>
+
+    <apex:outputPanel rendered="{! OpportunityDetails != null }">
+        <table>
+            <tr><td>Account Name: {! OpportunityDetails.Account.Name }</td></tr> 
+            <tr><td>Account Executive: {! OpportunityDetails.Owner.Name }</td></tr> 
+            <tr><br/></tr> 
+            <tr><td>* CSM: {! OpportunityDetails.Account.CF_Customer_Success_Manager__c }</td></tr> 
+            <tr><br/></tr> 
+            <tr><td>SFDC Account ID: {! OpportunityDetails.AccountId }</td></tr> 
+            <tr><td>Deal Type: {! OpportunityDetails.Type }</td></tr> 
+            <tr><br/></tr> 
+            <tr><td>SLA Name in SFDC: {! OpportunityDetails.SLA_Name2__c }</td></tr> 
+            <tr><td>SLA Sev 1 Response Time: {! OpportunityDetails.SLA_Sev_1_Response_Time__c }</td></tr> 
+            <tr><td>SLA Sev 2 Response Time: {! OpportunityDetails.SLA_Sev_2_Response_Time__c }</td></tr> 
+            <tr><td>SLA Sev 2 Response Time: {! OpportunityDetails.SLA_Sev_3_Response_Time__c }</td></tr> 
+            <tr><br/></tr> 
+            <tr><td>SLA Type in ZD: {! OpportunityDetails.Account.Zendesk_SLA_Support_Plan__c }</td></tr> 
+            <tr>
+                <td>
+                    SLA Domain: 
+                    <apex:outputPanel rendered="{! OpportunityDetails.Handovers__r.size > 0}">
+                        {! IF(OpportunityDetails.Handovers__r[0].Email_domains__c != '', OpportunityDetails.Handovers__r[0].Email_domains__c, '') }{! IF(OpportunityDetails.Handovers__r[0].Additional_email_domains__c != '', ', ' + OpportunityDetails.Handovers__r[0].Additional_email_domains__c, '') }
+                    </apex:outputPanel>
+                </td>
+            </tr>  
+
+            <tr><br/></tr>  
+            <tr><td>Zendesk Organization URL: {! OpportunityDetails.Account.Zendesk_Organization__c }</td></tr> 
+
+        </table> 
+
+    </apex:outputPanel>
+
+    * IMPORTANT: If field CSM is null/empty, it means there's no CSM assigned <br/><br/>
+
+    This is an automated message sent from SFDC 
+
+</apex:component>
